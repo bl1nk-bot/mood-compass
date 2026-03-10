@@ -1,0 +1,14 @@
+{
+  "$schema": "https://unpkg.com/knip@latest/schema.json",
+  "entry": ["src/main.tsx", "src-tauri/src/**/*.rs"],
+  "project": ["src/**/*.{ts,tsx}"],
+  "ignore": ["**/*.test.{ts,tsx}", "**/*.spec.{ts,tsx}", "dist/**"],
+  "ignoreDependencies": ["@tauri-apps/cli"],
+  "vite": {
+    "config": ["vite.config.ts"],
+    "entry": ["src/main.tsx", "index.html"]
+  },
+  "typescript": {
+    "config": ["tsconfig.json", "tsconfig.app.json", "tsconfig.node.json"]
+  }
+}

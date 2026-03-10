@@ -1,0 +1,804 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://bl1nk-markdown.dev/schema/settings.schema.json",
+  "title": "bl1nkMarkdown Settings Schema",
+  "description": "Comprehensive settings schema for bl1nkMarkdown application configuration",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "version",
+    "app",
+    "editor",
+    "ui",
+    "mcp",
+    "plugins",
+    "agents"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Settings schema version",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "examples": [
+        "1.0.0"
+      ]
+    },
+    "app": {
+      "type": "object",
+      "description": "Application-level settings",
+      "required": [
+        "title",
+        "autoSave",
+        "autoSaveInterval"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Application title",
+          "default": "Markdown"
+        },
+        "autoSave": {
+          "type": "boolean",
+          "description": "Enable automatic file saving",
+          "default": true
+        },
+        "autoSaveInterval": {
+          "type": "integer",
+          "description": "Auto-save interval in milliseconds",
+          "default": 5000,
+          "minimum": 1000,
+          "maximum": 60000
+        },
+        "recentFilesLimit": {
+          "type": "integer",
+          "description": "Maximum number of recent files to track",
+          "default": 10,
+          "minimum": 1,
+          "maximum": 100
+        },
+        "backupEnabled": {
+          "type": "boolean",
+          "description": "Enable backup of edited files",
+          "default": true
+        },
+        "backupDirectory": {
+          "type": "string",
+          "description": "Directory for backup files",
+          "default": "~/.bl1nk-markdown/backups"
+        },
+        "logLevel": {
+          "type": "string",
+          "description": "Application logging level",
+          "enum": [
+            "trace",
+            "debug",
+            "info",
+            "warn",
+            "error"
+          ],
+          "default": "info"
+        },
+        "startupBehavior": {
+          "type": "string",
+          "description": "Behavior on application startup",
+          "enum": [
+            "new",
+            "recent",
+            "lastOpened",
+            "blank"
+          ],
+          "default": "blank"
+        }
+      }
+    },
+    "editor": {
+      "type": "object",
+      "description": "Editor configuration",
+      "required": [
+        "fontSize",
+        "fontFamily",
+        "lineHeight",
+        "tabSize",
+        "wordWrap"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "fontSize": {
+          "type": "integer",
+          "description": "Editor font size in pixels",
+          "default": 14,
+          "minimum": 8,
+          "maximum": 32
+        },
+        "fontFamily": {
+          "type": "string",
+          "description": "Editor font family",
+          "default": "JetBrains Mono",
+          "enum": [
+            "JetBrains Mono",
+            "Fira Code",
+            "Source Code Pro",
+            "Courier New",
+            "Monospace"
+          ]
+        },
+        "lineHeight": {
+          "type": "number",
+          "description": "Line height multiplier",
+          "default": 1.6,
+          "minimum": 1.0,
+          "maximum": 3.0
+        },
+        "tabSize": {
+          "type": "integer",
+          "description": "Tab size in spaces",
+          "default": 2,
+          "minimum": 1,
+          "maximum": 8
+        },
+        "insertSpaces": {
+          "type": "boolean",
+          "description": "Insert spaces instead of tabs",
+          "default": true
+        },
+        "wordWrap": {
+          "type": "string",
+          "description": "Word wrap behavior",
+          "enum": [
+            "off",
+            "on",
+            "wordWrapColumn"
+          ],
+          "default": "on"
+        },
+        "wordWrapColumn": {
+          "type": "integer",
+          "description": "Column for word wrap",
+          "default": 80,
+          "minimum": 20,
+          "maximum": 200
+        },
+        "renderWhitespace": {
+          "type": "string",
+          "description": "Render whitespace characters",
+          "enum": [
+            "none",
+            "boundary",
+            "selection",
+            "all"
+          ],
+          "default": "none"
+        },
+        "renderLineNumbers": {
+          "type": "string",
+          "description": "Render line numbers",
+          "enum": [
+            "off",
+            "on",
+            "relative",
+            "interval"
+          ],
+          "default": "on"
+        },
+        "minimap": {
+          "type": "object",
+          "description": "Minimap settings",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Enable minimap",
+              "default": true
+            },
+            "side": {
+              "type": "string",
+              "description": "Minimap side",
+              "enum": [
+                "left",
+                "right"
+              ],
+              "default": "right"
+            },
+            "width": {
+              "type": "integer",
+              "description": "Minimap width in pixels",
+              "default": 80,
+              "minimum": 40,
+              "maximum": 200
+            }
+          }
+        },
+        "bracketPairColorization": {
+          "type": "boolean",
+          "description": "Enable bracket pair colorization",
+          "default": true
+        },
+        "syntaxHighlighting": {
+          "type": "boolean",
+          "description": "Enable syntax highlighting",
+          "default": true
+        },
+        "autoClosingBrackets": {
+          "type": "string",
+          "description": "Auto-close brackets",
+          "enum": [
+            "never",
+            "languageDefined",
+            "always"
+          ],
+          "default": "languageDefined"
+        },
+        "autoClosingQuotes": {
+          "type": "string",
+          "description": "Auto-close quotes",
+          "enum": [
+            "never",
+            "languageDefined",
+            "always"
+          ],
+          "default": "languageDefined"
+        },
+        "formatOnSave": {
+          "type": "boolean",
+          "description": "Format document on save",
+          "default": true
+        },
+        "trimTrailingWhitespace": {
+          "type": "boolean",
+          "description": "Trim trailing whitespace on save",
+          "default": true
+        },
+        "insertFinalNewline": {
+          "type": "boolean",
+          "description": "Insert final newline on save",
+          "default": true
+        }
+      }
+    },
+    "ui": {
+      "type": "object",
+      "description": "User interface settings",
+      "required": [
+        "theme",
+        "sidebarPosition",
+        "sidebarWidth"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "theme": {
+          "type": "string",
+          "description": "Application theme",
+          "enum": [
+            "light",
+            "dark",
+            "auto"
+          ],
+          "default": "light"
+        },
+        "accentColor": {
+          "type": "string",
+          "description": "Accent color (hex)",
+          "pattern": "^#[0-9A-Fa-f]{6}$",
+          "default": "#0891B2"
+        },
+        "sidebarPosition": {
+          "type": "string",
+          "description": "Sidebar position",
+          "enum": [
+            "left",
+            "right"
+          ],
+          "default": "left"
+        },
+        "sidebarWidth": {
+          "type": "integer",
+          "description": "Sidebar width in pixels",
+          "default": 280,
+          "minimum": 200,
+          "maximum": 500
+        },
+        "sidebarCollapsed": {
+          "type": "boolean",
+          "description": "Sidebar collapsed state",
+          "default": false
+        },
+        "statusBarVisible": {
+          "type": "boolean",
+          "description": "Show status bar",
+          "default": true
+        },
+        "toolbarVisible": {
+          "type": "boolean",
+          "description": "Show toolbar",
+          "default": true
+        },
+        "previewPaneVisible": {
+          "type": "boolean",
+          "description": "Show preview pane",
+          "default": false
+        },
+        "previewPaneWidth": {
+          "type": "integer",
+          "description": "Preview pane width in pixels",
+          "default": 400,
+          "minimum": 200,
+          "maximum": 800
+        },
+        "taskHistoryLimit": {
+          "type": "integer",
+          "description": "Maximum task history items to display",
+          "default": 5,
+          "minimum": 1,
+          "maximum": 20
+        },
+        "animationsEnabled": {
+          "type": "boolean",
+          "description": "Enable UI animations",
+          "default": true
+        },
+        "reducedMotion": {
+          "type": "boolean",
+          "description": "Respect prefers-reduced-motion",
+          "default": false
+        },
+        "windowState": {
+          "type": "object",
+          "description": "Window state on startup",
+          "additionalProperties": false,
+          "properties": {
+            "width": {
+              "type": "integer",
+              "description": "Window width",
+              "default": 1200
+            },
+            "height": {
+              "type": "integer",
+              "description": "Window height",
+              "default": 800
+            },
+            "x": {
+              "type": "integer",
+              "description": "Window X position"
+            },
+            "y": {
+              "type": "integer",
+              "description": "Window Y position"
+            },
+            "maximized": {
+              "type": "boolean",
+              "description": "Window maximized",
+              "default": false
+            }
+          }
+        }
+      }
+    },
+    "mcp": {
+      "type": "object",
+      "description": "Model Context Protocol settings",
+      "required": [
+        "enabled",
+        "servers"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable MCP integration",
+          "default": true
+        },
+        "autoConnect": {
+          "type": "boolean",
+          "description": "Auto-connect to MCP servers on startup",
+          "default": true
+        },
+        "retryAttempts": {
+          "type": "integer",
+          "description": "Number of connection retry attempts",
+          "default": 3,
+          "minimum": 0,
+          "maximum": 10
+        },
+        "retryDelay": {
+          "type": "integer",
+          "description": "Delay between retries in milliseconds",
+          "default": 1000,
+          "minimum": 100,
+          "maximum": 10000
+        },
+        "requestTimeout": {
+          "type": "integer",
+          "description": "MCP request timeout in milliseconds",
+          "default": 30000,
+          "minimum": 1000,
+          "maximum": 120000
+        },
+        "servers": {
+          "type": "array",
+          "description": "MCP server configurations",
+          "minItems": 0,
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "url",
+              "type"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Server identifier",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "url": {
+                "type": "string",
+                "description": "Server URL",
+                "format": "uri"
+              },
+              "type": {
+                "type": "string",
+                "description": "Server transport type",
+                "enum": [
+                  "http",
+                  "sse",
+                  "stdio"
+                ]
+              },
+              "enabled": {
+                "type": "boolean",
+                "description": "Enable this server",
+                "default": true
+              },
+              "headers": {
+                "type": "object",
+                "description": "Custom HTTP headers",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "auth": {
+                "type": "object",
+                "description": "Authentication configuration",
+                "additionalProperties": false,
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "none",
+                      "bearer",
+                      "basic",
+                      "apiKey"
+                    ],
+                    "default": "none"
+                  },
+                  "token": {
+                    "type": "string",
+                    "description": "Bearer token"
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "Basic auth username"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Basic auth password"
+                  },
+                  "apiKey": {
+                    "type": "string",
+                    "description": "API key"
+                  },
+                  "apiKeyHeader": {
+                    "type": "string",
+                    "description": "API key header name",
+                    "default": "X-API-Key"
+                  }
+                }
+              },
+              "toolTimeout": {
+                "type": "integer",
+                "description": "Tool execution timeout in milliseconds",
+                "default": 30000,
+                "minimum": 1000,
+                "maximum": 120000
+              },
+              "cacheTools": {
+                "type": "boolean",
+                "description": "Cache available tools",
+                "default": true
+              },
+              "cacheTTL": {
+                "type": "integer",
+                "description": "Tool cache TTL in milliseconds",
+                "default": 300000,
+                "minimum": 60000,
+                "maximum": 3600000
+              }
+            }
+          }
+        },
+        "debug": {
+          "type": "boolean",
+          "description": "Enable MCP debug logging",
+          "default": false
+        }
+      }
+    },
+    "plugins": {
+      "type": "object",
+      "description": "Plugin system settings",
+      "required": [
+        "enabled",
+        "directory"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable plugin system",
+          "default": true
+        },
+        "directory": {
+          "type": "string",
+          "description": "Plugin directory path",
+          "default": "~/.bl1nk-markdown/plugins"
+        },
+        "autoLoad": {
+          "type": "array",
+          "description": "Plugins to auto-load on startup",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "disabled": {
+          "type": "array",
+          "description": "Disabled plugins",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "sandboxing": {
+          "type": "boolean",
+          "description": "Enable plugin sandboxing",
+          "default": true
+        },
+        "allowFileAccess": {
+          "type": "boolean",
+          "description": "Allow plugins to access files",
+          "default": false
+        },
+        "allowNetworkAccess": {
+          "type": "boolean",
+          "description": "Allow plugins to make network requests",
+          "default": false
+        },
+        "allowMCPAccess": {
+          "type": "boolean",
+          "description": "Allow plugins to use MCP",
+          "default": true
+        },
+        "maxPlugins": {
+          "type": "integer",
+          "description": "Maximum number of plugins to load",
+          "default": 50,
+          "minimum": 1,
+          "maximum": 1000
+        },
+        "pluginTimeout": {
+          "type": "integer",
+          "description": "Plugin execution timeout in milliseconds",
+          "default": 10000,
+          "minimum": 1000,
+          "maximum": 60000
+        },
+        "debug": {
+          "type": "boolean",
+          "description": "Enable plugin debug logging",
+          "default": false
+        }
+      }
+    },
+    "keyboard": {
+      "type": "object",
+      "description": "Keyboard shortcuts configuration",
+      "additionalProperties": false,
+      "properties": {
+        "customBindings": {
+          "type": "object",
+          "description": "Custom keyboard bindings",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "files": {
+      "type": "object",
+      "description": "File handling settings",
+      "additionalProperties": false,
+      "properties": {
+        "encoding": {
+          "type": "string",
+          "description": "Default file encoding",
+          "enum": [
+            "utf-8",
+            "utf-16",
+            "iso-8859-1",
+            "windows-1252"
+          ],
+          "default": "utf-8"
+        },
+        "lineEnding": {
+          "type": "string",
+          "description": "Default line ending",
+          "enum": [
+            "lf",
+            "crlf",
+            "cr"
+          ],
+          "default": "lf"
+        },
+        "maxFileSize": {
+          "type": "integer",
+          "description": "Maximum file size in bytes",
+          "default": 104857600,
+          "minimum": 1048576,
+          "maximum": 1073741824
+        },
+        "watchFiles": {
+          "type": "boolean",
+          "description": "Watch files for external changes",
+          "default": true
+        }
+      }
+    },
+    "search": {
+      "type": "object",
+      "description": "Search and replace settings",
+      "additionalProperties": false,
+      "properties": {
+        "caseSensitive": {
+          "type": "boolean",
+          "description": "Case-sensitive search by default",
+          "default": false
+        },
+        "wholeWord": {
+          "type": "boolean",
+          "description": "Whole word search by default",
+          "default": false
+        },
+        "regex": {
+          "type": "boolean",
+          "description": "Regex search by default",
+          "default": false
+        },
+        "searchHistory": {
+          "type": "integer",
+          "description": "Search history limit",
+          "default": 20,
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "performance": {
+      "type": "object",
+      "description": "Performance optimization settings",
+      "additionalProperties": false,
+      "properties": {
+        "enableCaching": {
+          "type": "boolean",
+          "description": "Enable caching",
+          "default": true
+        },
+        "cacheSize": {
+          "type": "integer",
+          "description": "Cache size in MB",
+          "default": 100,
+          "minimum": 10,
+          "maximum": 1000
+        },
+        "enableLazyLoading": {
+          "type": "boolean",
+          "description": "Enable lazy loading",
+          "default": true
+        },
+        "syntaxHighlightingThreshold": {
+          "type": "integer",
+          "description": "File size threshold for syntax highlighting in bytes",
+          "default": 5242880,
+          "minimum": 1048576,
+          "maximum": 104857600
+        }
+      }
+    },
+    "accessibility": {
+      "type": "object",
+      "description": "Accessibility settings",
+      "additionalProperties": false,
+      "properties": {
+        "screenReaderSupport": {
+          "type": "boolean",
+          "description": "Enable screen reader support",
+          "default": false
+        },
+        "highContrast": {
+          "type": "boolean",
+          "description": "Enable high contrast mode",
+          "default": false
+        },
+        "fontSize": {
+          "type": "integer",
+          "description": "UI font size",
+          "default": 14,
+          "minimum": 10,
+          "maximum": 24
+        }
+      }
+    },
+    "telemetry": {
+      "type": "object",
+      "description": "Telemetry and analytics settings",
+      "additionalProperties": false,
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Enable telemetry collection",
+          "default": false
+        },
+        "crashReporting": {
+          "type": "boolean",
+          "description": "Enable crash reporting",
+          "default": true
+        },
+        "usageAnalytics": {
+          "type": "boolean",
+          "description": "Enable usage analytics",
+          "default": false
+        }
+      }
+    },
+    "agents": {
+      "type": "object",
+      "description": "AI Agent configurations",
+      "required": ["agents"],
+      "additionalProperties": false,
+      "properties": {
+        "agents": {
+          "type": "object",
+          "description": "Map of agent name to configuration",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["command", "args"],
+            "properties": {
+              "command": {
+                "type": "string",
+                "description": "Command to execute"
+              },
+              "args": {
+                "type": "array",
+                "description": "Command arguments",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "env": {
+                "type": "object",
+                "description": "Environment variables",
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "default": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

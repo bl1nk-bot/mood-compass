@@ -1,0 +1,20 @@
+node_modules
+dist
+dist-ssr
+*.local
+.vscode
+.idea
+
+# Generated files
+src/lib/proto/
+
+# Build output
+build/
+out/
+
+# Tauri
+src-tauri/target/
+src-tauri/WixTools/
+
+# CSS with Tailwind directives
+src/index.css

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Debug Console</title>
+</head>
+<body>
+  <h1>Check Browser Console (F12)</h1>
+  <div id="status">Loading...</div>
+  <pre id="output"></pre>
+  
+  <script type="module">
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+    
+    console.log('Testing API connection...');
+    
+    try {
+      const res = await fetch('http://localhost:3001/api/agents');
+      const data = await res.json();
+      console.log('API Response:', data);
+      status.textContent = 'API Connected ✓';
+      output.textContent = JSON.stringify(data, null, 2);
+    } catch (error) {
+      console.error('API Error:', error);
+      status.textContent = 'API Error ✗';
+      output.textContent = error.message;
+    }
+  </script>
+</body>
+</html>
